@@ -27,6 +27,6 @@ export default async function connectDB() {
         throw err
       })
   }
-  cached.comm = await cached.promise
-  return cached.comm
+  cached.conn = await cached.promise
+  return cached.conn
 }

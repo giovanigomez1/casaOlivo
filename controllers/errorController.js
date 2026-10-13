@@ -6,7 +6,8 @@ const handleCastErrorDB = err => {
 }
 
 const handleDuplicateFieldsDB = err => {
-  const message = `Duplicate field value: ${err.keyValue.name}. Please use another value`
+  const [field, value] = Object.entries(err.keyValue)[0]
+  const message = `Duplicate value for ${field}: ${value}. Please use another value`
   return new AppError(message, 400)
 }
 
@@ -20,7 +21,7 @@ const handleValidationErrorDB = err => {
 const handleJWTError = () => new AppError('Invalid token, please log in again.', 401)
 const handleJWTExpiredError = () => new AppError('Token has expired, please log in again.', 401)
 
-const sendErrorDev = (err, res, req) => {
+const sendErrorDev = (err, req, res) => {
   //API A)
   if (req.originalUrl.startsWith('/api')) {
     return res.status(err.statusCode).json({
@@ -74,7 +75,7 @@ export default (err, req, res, next) => {
   err.status = err.status || 'error'
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res, req)
+    sendErrorDev(err, req, res)
 
   } else {
     // production o NODE_ENV sin definir: nunca dejar la petición sin respuesta

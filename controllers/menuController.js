@@ -1,6 +1,9 @@
-import MenuItem from "../models/menuModel.js";
+import MenuItem from '../models/menuModel.js'
 import * as factory from './handleFactory.js'
 
-export const getAllItems = factory.getAll(MenuItem)
+// Público: solo platillos disponibles, agrupados por categoría y nombre
+export const getAllItems = factory.getAll(MenuItem, {
+  baseFilter: { available: true },
+  defaultSort: 'category name'
+})
 export const getOneItem = factory.getOne(MenuItem)
-

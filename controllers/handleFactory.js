@@ -3,15 +3,20 @@ import AppError from "../util/appError.js";
 import ApiFeatures from "../util/apiFeatures.js";
 
 
-export const getAll = Model => catchAsync(async (req, res, next) => {
-  let filter = {}
+// options.baseFilter: condiciones fijas que el cliente no puede cambiar
+//   (ej. { available: true } para el menú público)
+// options.defaultSort: orden por defecto si no viene ?sort=
+export const getAll = (Model, options = {}) => catchAsync(async (req, res, next) => {
+  const { baseFilter = {}, defaultSort } = options
 
-  const features = new ApiFeatures(Model.find(filter), req.query)
+  const features = new ApiFeatures(Model.find(), req.query, defaultSort)
     .filter()
     .sort()
     .limitFields()
     .pagination()
-  const docs = await features.query
+
+  // Se aplica al final para que ?available=false no pueda sobrescribirlo
+  const docs = await features.query.find(baseFilter)
   res.status(200).json({
     status: 'success',
     results: docs.length,

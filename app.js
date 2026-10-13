@@ -8,6 +8,11 @@ import morgan from 'morgan'
 import cors from 'cors'
 import connectDB from "./util/db.js";
 import rateLimit from 'express-rate-limit'
+import itemRoute from './routes/itemRoute.js'
+import globalErrorHandler from './controllers/errorController.js'
+
+import homeroute from './routes/home.js'
+
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -55,6 +60,12 @@ app.use('/api', async (req, res, next) => {
   }
 })
 
+
+app.use('/', homeroute)
+app.use('/api/v1/menu', itemRoute)
+
+app.use((req, res, next) => next(new AppError(`No existe ${req.originalUrl}`, 404)))
+app.use(globalErrorHandler)
 
 
 export { app }

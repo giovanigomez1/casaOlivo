@@ -7,7 +7,7 @@ if (!cached) cached = globalThis._mongoose = { conn: null, promise: null }
 
 
 export default async function connectDB() {
-  if (cached.comm && mongoose.connection.readyState === 1) return cached.conn
+  if (cached.conn && mongoose.connection.readyState === 1) return cached.conn
 
   if (!cached.promise) {
     const DB = process.env.DATABASE.replace('<db_password>', process.env.DATABASE_PASSWORD)

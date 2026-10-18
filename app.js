@@ -10,6 +10,8 @@ import AppError from './util/appError.js'
 import globalErrorHandler from './controllers/errorController.js'
 import homeRoute from './routes/home.js'
 import menuRoutes from './routes/menuRoutes.js'
+import reservationRoutes from './routes/reservationsRoutes.js'
+
 
 const app = express()
 
@@ -51,6 +53,8 @@ app.use('/api', async (req, res, next) => {
 // 3) Rutas
 app.use('/', homeRoute)
 app.use('/api/v1/menu', menuRoutes)
+app.use('/api/v1/reservations', reservationRoutes)
+
 
 // 4) Rutas inexistentes y manejo de errores
 app.use((req, res, next) => next(new AppError(`Can't find ${req.originalUrl} on this server`, 404)))

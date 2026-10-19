@@ -20,5 +20,4 @@ export async function hasCapacity(date, time, guests) {
   const maxGuests = SCHEDULE.maxGuestsPerSlot
 
   return totalBooked + guests <= maxGuests
-
 }

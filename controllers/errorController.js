@@ -74,18 +74,21 @@ export default (err, req, res, next) => {
   err.statusCode = err.statusCode || 500
   err.status = err.status || 'error'
 
-  if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, req, res)
+  // Convertir errores conocidos (Mongoose, JWT) en errores operacionales con su código correcto.
+  // Se hace en TODOS los ambientes, para que en desarrollo también veas 400 en lugar de 500.
+  let error = err
+  if (err.name === 'CastError') error = handleCastErrorDB(err)
+  if (err.code === 11000) error = handleDuplicateFieldsDB(err)
+  if (err.name === 'ValidationError') error = handleValidationErrorDB(err)
+  if (err.name === 'JsonWebTokenError') error = handleJWTError()
+  if (err.name === 'TokenExpiredError') error = handleJWTExpiredError()
 
+  if (process.env.NODE_ENV === 'development') {
+    // En desarrollo mandamos también el error original y el stack para depurar
+    error.stack = err.stack
+    sendErrorDev(error, req, res)
   } else {
     // production o NODE_ENV sin definir: nunca dejar la petición sin respuesta
-    let error = Object.create(err)
-
-    if (err.name === 'CastError') error = handleCastErrorDB(err)
-    if (err.code === 11000) error = handleDuplicateFieldsDB(err)
-    if (err.name === 'ValidationError') error = handleValidationErrorDB(err)
-    if (err.name === 'JsonWebTokenError') error = handleJWTError()
-    if (err.name === 'TokenExpiredError') error = handleJWTExpiredError()
     sendErrorProd(error, req, res)
   }
 }

@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.route('/')
   .get(reservationsController.getAllReservations)
-// .post(reservationsController.createReservation)
+  .post(reservationsController.createReservation)
 
 
 

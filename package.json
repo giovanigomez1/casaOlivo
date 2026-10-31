@@ -10,7 +10,8 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "seed": "node seed.js",
-    "seed:reservations": "node seedReservations.js"
+    "seed:reservations": "node seedReservations.js",
+    "seed:users": "node seedUsers.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

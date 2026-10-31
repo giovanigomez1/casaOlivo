@@ -11,6 +11,7 @@ import globalErrorHandler from './controllers/errorController.js'
 import homeRoute from './routes/home.js'
 import menuRoutes from './routes/menuRoutes.js'
 import reservationRoutes from './routes/reservationsRoutes.js'
+import usersRoute from './routes/userRoutes.js'
 
 
 const app = express()
@@ -54,6 +55,7 @@ app.use('/api', async (req, res, next) => {
 app.use('/', homeRoute)
 app.use('/api/v1/menu', menuRoutes)
 app.use('/api/v1/reservations', reservationRoutes)
+app.use('/api/v1/users', usersRoute)
 
 
 // 4) Rutas inexistentes y manejo de errores

@@ -43,3 +43,17 @@ export const getOne = (Model, popOptions) => catchAsync(async (req, res, next) =
 })
 
 
+
+export const updateOne = (Model) => catchAsync(async (req, res, next) => {
+  const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    returnDocument: 'after',
+    runValidators: true
+  })
+  if (!doc) return next(new AppError('Documento no encontrado', 404))
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: doc
+    }
+  })
+})

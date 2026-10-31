@@ -7,7 +7,7 @@ import { hasCapacity } from '../services/capacityService.js'
 import generateCode from '../util/generateCode.js'
 
 
-export const getAllReservations = factory.getAll(Reservation)
+export const getAllReservations = factory.getAll(Reservation, { defaultSort: 'date time' })
 export const getReservation = factory.getOne(Reservation)
 
 

@@ -12,10 +12,10 @@ const signToken = id => {
 }
 
 
-const createSendToken = (user, statusCode, req, res, logout) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id)
   const cookieOptions = {
-    expires: !logout ? new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000) : new Date(Date.now() + 1000),
+    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 60 * 60 * 1000),
     httpOnly: true,
     sameSite: 'lax',
     secure: req.secure || req.headers['x-forwarded-proto'] === 'https'

@@ -12,6 +12,9 @@ const router = express.Router()
 router.route('/')
   .post(reservationsController.validateReservationDetails, reservationsController.createReservation)
 
+router.route('/availability')
+  .get(reservationsController.getAvailability)
+
 
 router.use(authController.protect)
 router.route('/')
